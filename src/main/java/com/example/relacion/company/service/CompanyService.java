@@ -2,7 +2,6 @@ package com.example.relacion.company.service;
 
 import com.example.relacion.company.dto.CompanyDepartmentsDto;
 import com.example.relacion.company.entity.Company;
-import com.example.relacion.company.mapper.CompanyMapper;
 import com.example.relacion.company.repository.CompanyRepository;
 import com.example.relacion.department.dto.DepartmentEmployeesDto;
 import com.example.relacion.department.entity.Department;
@@ -63,7 +62,9 @@ public class CompanyService {
         }
 
         CompanyDepartmentsDto respuesta = new CompanyDepartmentsDto();
-        respuesta.setCompany(CompanyMapper.aDto(company));
+        respuesta.setCompanyId(company.getId());
+        respuesta.setCompanyName(company.getName());
+        respuesta.setCountry(company.getCountry());
         respuesta.setDepartmentCount(departamentosDto.size());
         respuesta.setDepartments(departamentosDto);
         respuesta.setTotalBudget(totalPresupuesto);

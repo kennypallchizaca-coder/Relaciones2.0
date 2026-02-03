@@ -1,10 +1,10 @@
 package com.example.relacion.employee.service;
 
+import com.example.relacion.department.dto.DepartmentSimpleDto;
 import com.example.relacion.department.entity.Department;
 import com.example.relacion.department.repository.DepartmentRepository;
 import com.example.relacion.employee.dto.EmployeeTransferResponseDto;
 import com.example.relacion.employee.entity.Employee;
-import com.example.relacion.employee.mapper.EmployeeMapper;
 import com.example.relacion.employee.repository.EmployeeRepository;
 import com.example.relacion.exceptions.ConflictException;
 import com.example.relacion.exceptions.NotFoundException;
@@ -32,14 +32,28 @@ public class EmployeeService {
             throw new NotFoundException("Target department not found or inactive");
         }
 
-        if (employee.getDepartment() != null && targetDepartment.getId().equals(employee.getDepartment().getId())) {
+        Department oldDepartment = employee.getDepartment();
+        if (oldDepartment != null && targetDepartment.getId().equals(oldDepartment.getId())) {
             throw new ConflictException("Employee is already in the target department");
         }
 
         employee.setDepartment(targetDepartment);
         Employee saved = employeeRepository.save(employee);
+
+        DepartmentSimpleDto oldDeptDto = null;
+        if (oldDepartment != null) {
+            oldDeptDto = new DepartmentSimpleDto(oldDepartment.getId(), oldDepartment.getName());
+        }
+        DepartmentSimpleDto newDeptDto = new DepartmentSimpleDto(targetDepartment.getId(),
+                targetDepartment.getName());
+        String fullName = saved.getFirstName() + " " + saved.getLastName();
+
         EmployeeTransferResponseDto respuesta = new EmployeeTransferResponseDto();
-        respuesta.setEmployee(EmployeeMapper.aDto(saved));
+        respuesta.setEmployeeId(saved.getId());
+        respuesta.setEmployeeName(fullName);
+        respuesta.setOldDepartment(oldDeptDto);
+        respuesta.setNewDepartment(newDeptDto);
+        respuesta.setMessage("Employee transferred successfully");
         return respuesta;
     }
 }

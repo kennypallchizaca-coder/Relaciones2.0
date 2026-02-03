@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompanyDepartmentsDto {
-    private CompanyDto company;
+    private Long companyId;
+    private String companyName;
+    private String country;
     private long departmentCount;
     private List<DepartmentEmployeesDto> departments = new ArrayList<>();
     private double totalBudget;
@@ -13,20 +15,38 @@ public class CompanyDepartmentsDto {
     public CompanyDepartmentsDto() {
     }
 
-    public CompanyDepartmentsDto(CompanyDto company, long departmentCount, List<DepartmentEmployeesDto> departments,
-            double totalBudget) {
-        this.company = company;
+    public CompanyDepartmentsDto(Long companyId, String companyName, String country, long departmentCount,
+            List<DepartmentEmployeesDto> departments, double totalBudget) {
+        this.companyId = companyId;
+        this.companyName = companyName;
+        this.country = country;
         this.departmentCount = departmentCount;
         this.departments = departments;
         this.totalBudget = totalBudget;
     }
 
-    public CompanyDto getCompany() {
-        return company;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setCompany(CompanyDto company) {
-        this.company = company;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public long getDepartmentCount() {
